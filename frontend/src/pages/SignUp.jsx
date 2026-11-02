@@ -1,13 +1,38 @@
 import { useState } from "react"
 import Button from "../components/Button"
 import Input from "../components/Input"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import {api} from "../api/api"
+import { useUserStore } from "../store/useUserStore"
 
 const SignUp = () => {
     const [error, setError] = useState("")
+    const navigate = useNavigate()
+    const { setUser } = useUserStore()
 
-    const handleSubmit = () => {}
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setError("")
 
+        if (e.target.password.value !==e.target.password2.value)
+            return setError("Пароли не совпадают")
+
+        const user = {
+            username: e.target.username.value,
+            email: e.target.email.value,
+            password: e.target.password.value,
+        }
+
+        try{
+            const data = await api.registerUser(user)
+            setUser(data.data)
+            navigate("/")
+            } catch (error) {
+                console.error(error)
+                setError(error.response.data.error)
+            }
+        }
+ 
     return (
         <div className="auth-page">
             <div className="auth-container">
@@ -18,6 +43,7 @@ const SignUp = () => {
                         id="username"
                         name="username"
                         type="text"
+                        minLength="3"
                         label="Имя пользователя"
                         required
                         placeholder="Введите имя пользователя"
@@ -34,6 +60,7 @@ const SignUp = () => {
                         id="password"
                         name="password"
                         type="password"
+                        minLength="6"
                         label="Пароль"
                         required
                         placeholder="Введите пароль"
@@ -42,6 +69,7 @@ const SignUp = () => {
                         id="password2"
                         name="password2"
                         type="password"
+                        minLength="6"
                         label="Подтверждение пароля"
                         required
                         placeholder="Подтвердите пароль"

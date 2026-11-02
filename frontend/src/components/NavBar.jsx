@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useUserStore } from "../store/useUserStore"
 
 const NavBar = () => {
+    const {user} = useUserStore()
     return (
         <div className="navbar">
             <div className="navbar-container">
@@ -8,16 +10,23 @@ const NavBar = () => {
                 <ul className="navbar-nav">
                     <li>
                         <Link to={'/'}>Домой</Link>
-                    </li>
-                    <li>
-                        <Link to={'/signin'}>Войти</Link>
-                    </li>
-                    <li>
-                        <Link to={'/my-messages'}>Мои сообщения</Link>
-                    </li>
-                    <li>
-                        <Link to={'/logout'}>Выйти</Link>
-                    </li>
+                        </li>
+                    {  
+                        !user ?
+                        (
+                        <li>
+                            <Link to={'/signin'}>Войти</Link>
+                        </li>
+                        ) : (
+                        <>
+                        <li>
+                            <Link to={'/my-messages'}>Мои сообщения</Link>
+                        </li>
+                        <li>
+                            <Link to={'/logout'}>Выйти</Link>
+                        </li> 
+                        </>
+                     )}
                 </ul>
             </div>
         </div>
