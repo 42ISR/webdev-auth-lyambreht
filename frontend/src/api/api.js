@@ -41,6 +41,7 @@ const sendMessage = async (message) => {
 
 const getMyMessages = async () => {
     const res = await apiInstance.get("/my-messages")
+    return res 
 }
 
 const getStats = async () => {
