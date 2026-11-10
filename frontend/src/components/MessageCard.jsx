@@ -29,7 +29,7 @@ const MessageCard = ({ likes, content, username, createdAt, id, userId, likedBy 
             </div>
             <div className="message-actions">
                 <button onClick={handleLike} className="action-button">
-                    <span>{likes} {isLiked} ? "💗": "🤍"</span>
+                    <span>{likes} {isLiked ? "💗" : "🤍"}</span>
                     <span>Нравится</span>
                 </button>
                 <button onClick={handleReport} className="action-button">
